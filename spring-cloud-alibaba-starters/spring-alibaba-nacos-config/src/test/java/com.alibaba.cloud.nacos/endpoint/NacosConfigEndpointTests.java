@@ -1,5 +1,5 @@
 /*
- * Copyright 2013-2023 the original author or authors.
+ * Copyright 2013-present the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +19,6 @@ package com.alibaba.cloud.nacos.endpoint;
 import java.util.Map;
 
 import com.alibaba.cloud.nacos.NacosConfigAutoConfiguration;
-import com.alibaba.cloud.nacos.NacosConfigBootstrapConfiguration;
 import com.alibaba.cloud.nacos.NacosConfigManager;
 import com.alibaba.cloud.nacos.NacosConfigProperties;
 import com.alibaba.cloud.nacos.refresh.NacosRefreshHistory;
@@ -29,9 +28,9 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.actuate.health.Health.Builder;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
+import org.springframework.boot.health.contributor.Health;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.test.util.ReflectionTestUtils;
@@ -47,7 +46,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 		"spring.application.name=test-name",
 		"spring.nacos.config.server-addr=127.0.0.1:8848",
 		"spring.nacos.config.file-extension=properties",
-		"spring.cloud.bootstrap.enabled=true" })
+		"spring.config.import[0]=nacos:test-name.properties?refreshEnabled=true"})
 public class NacosConfigEndpointTests {
 
 	@Autowired
@@ -79,13 +78,13 @@ public class NacosConfigEndpointTests {
 
 	private void checkoutAcmHealthIndicator() {
 		try {
-			Builder builder = new Builder();
+			Health.Builder builder = new Health.Builder();
 
 			NacosConfigHealthIndicator healthIndicator = new NacosConfigHealthIndicator(
 					properties.configServiceInstance());
 			healthIndicator.doHealthCheck(builder);
 
-			Builder builder1 = new Builder();
+			Health.Builder builder1 = new Health.Builder();
 			builder1.up();
 
 			Assertions.assertThat(builder.build()).isEqualTo(builder1.build());
@@ -108,7 +107,7 @@ public class NacosConfigEndpointTests {
 	@Configuration
 	@EnableAutoConfiguration
 	@ImportAutoConfiguration({ NacosConfigEndpointAutoConfiguration.class,
-			NacosConfigAutoConfiguration.class, NacosConfigBootstrapConfiguration.class })
+			NacosConfigAutoConfiguration.class})
 	public static class TestConfig {
 
 	}

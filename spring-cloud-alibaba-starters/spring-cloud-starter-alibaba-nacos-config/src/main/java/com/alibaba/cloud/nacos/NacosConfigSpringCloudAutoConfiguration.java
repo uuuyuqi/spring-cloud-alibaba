@@ -1,5 +1,5 @@
 /*
- * Copyright 2013-2023 the original author or authors.
+ * Copyright 2013-present the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,6 @@
 
 package com.alibaba.cloud.nacos;
 
-import com.alibaba.cloud.nacos.client.NacosPropertySourceLocator;
 import com.alibaba.cloud.nacos.configdata.NacosConfigRefreshEventListener;
 import com.alibaba.cloud.nacos.refresh.SmartConfigurationPropertiesRebinder;
 import com.alibaba.cloud.nacos.refresh.condition.ConditionalOnNonDefaultBehavior;
@@ -44,12 +43,6 @@ public class NacosConfigSpringCloudAutoConfiguration {
 		// If using default behavior, not use SmartConfigurationPropertiesRebinder.
 		// Minimize te possibility of making mistakes.
 		return new SmartConfigurationPropertiesRebinder(beans);
-	}
-
-	@Bean
-	public NacosPropertySourceLocator nacosPropertySourceLocator(
-			NacosConfigManager nacosConfigManager) {
-		return new NacosPropertySourceLocator(nacosConfigManager);
 	}
 
 	@Bean(name = "nacosConfigSpringCloudRefreshEventListener")

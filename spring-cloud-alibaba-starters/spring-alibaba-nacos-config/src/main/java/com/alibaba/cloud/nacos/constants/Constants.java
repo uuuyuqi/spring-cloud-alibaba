@@ -1,5 +1,5 @@
 /*
- * Copyright 2013-2023 the original author or authors.
+ * Copyright 2013-present the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,16 +14,20 @@
  * limitations under the License.
  */
 
-package com.alibaba.cloud.tests.nacos.config;
 
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
+package com.alibaba.cloud.nacos.constants;
+
 
 /**
- * @author freeman
+ * @author <a href="mailto:chiangzeon@gmail.com">chiangzeon</a>
  */
-@SpringBootApplication
-@EnableConfigurationProperties(UserProperties.class)
-public class NacosConfigTestApplication {
+public final class Constants {
 
+	private Constants() {
+	}
+
+	/**
+	 * property:spring.config.import.
+	 */
+	public static final String SPRING_CONFIG_IMPORT_PROPERTIES = "spring.config.import";
 }
